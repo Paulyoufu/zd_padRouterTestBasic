@@ -1,6 +1,5 @@
 
 Parties1 = new Mongo.Collection("parties1");
-//Status = new Mongo.Collection("status");
 Parties = new Mongo.Collection("parties");
 if (Meteor.isClient) {
     angular.module('socially', [
@@ -8,8 +7,6 @@ if (Meteor.isClient) {
         'ui.router'
     ]);
 
-
-  	//angular.module('socially', ['angular-meteor']);PoliceClient
     angular.module('socially').config(function ($urlRouterProvider, $stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 
@@ -24,17 +21,17 @@ if (Meteor.isClient) {
             });
 
        // })
+
         $urlRouterProvider.otherwise("/parties");
     }
     )
-
   	angular.module('socially').controller('PoliceClient', ['$scope', '$meteor',
     function($scope, $meteor){
 
       $scope.parties = $meteor.collection(Parties);
       $scope.parties1 = $meteor.collection(Parties1);
-      $scope.remove = function(party){
-		$scope.parties.remove(party);
+      $scope.remove = function(){
+		$scope.parties.remove();
 	  };
 	  $scope.removeAll = function(){
 		 $scope.parties.remove();
@@ -50,21 +47,23 @@ if (Meteor.isClient) {
         }
 
 
-
     $scope.inputing = function(){
       console.log('123');
     }
 
     }]);
 
-    angular.module('socially').controller('PartiesListCtrl', ['$scope', '$meteor',
-        function($scope, $meteor){
-
-
+    angular.module('socially').controller('PartiesListCtrl', ['$scope', '$meteor','$reactive',
+        function($scope, $meteor,$reactive){
             $scope.parties1 = $meteor.collection(Parties1);
             $scope.parties = $meteor.collection(Parties);
-            $scope.remove = function(party){
-                $scope.parties.remove(party);
+            $reactive(this).attach($scope);
+            $scope.getid=function(){alert( $scope.parties[0]._id);}
+            Session.setDefault("inputId",null);
+            Session.setDefault("inputVal",null);
+            $scope.remove = function(){
+
+                $scope.parties.remove();
             };
 
             $scope.removeAll = function(){
@@ -79,7 +78,53 @@ if (Meteor.isClient) {
                 Parties1.insert({"status" : status,"disabled":true});
             }
 
+            $("input").click(function(){
+               Session.set("inputId",$(this).attr("id"));
+               Session.set("inputVal",$(this).val());
+                console.log(Session.get("inputId"));
+            })
 
+            $("a").click(function(){
+                var btnVal = $(this).text();
+                if(btnVal === "-")
+                {
+                    var text=Session.get("inputVal");
+                   var len = text.length;
+                    text = text.substr(0,len-1);
+                    Session.set("inputVal",text);
+                    updateVal("");
+                }
+                else
+                {
+                    updateVal(btnVal);
+                }
+            })
+
+            var updateText
+            updateVal = function(btnVal)
+            {
+                var inputId = Session.get("inputId",$(this).attr("id"));
+                 updateText = Session.get("inputVal")+btnVal;
+                Session.set("inputVal",updateText);
+                switch(inputId)
+                {
+                    case 'type':
+                        Parties.update({_id: $scope.parties[0]._id},{$set:{type: updateText}})
+                        break;
+                    case 'number':
+                        Parties.update({_id: $scope.parties[0]._id},{$set:{number: updateText}})
+                        break;
+                    case 'count':
+                        Parties.update({_id: $scope.parties[0]._id},{$set:{count: updateText}})
+                        break;
+                    case 'points':
+                        Parties.update({_id: $scope.parties[0]._id},{$set:{points: updateText}})
+                        break;
+                    case 'tel':
+                        Parties.update({_id: $scope.parties[0]._id},{$set:{telnumber: updateText}})
+                        break;
+                }
+            }
 
             $scope.inputing = function(){
                 console.log('123');
@@ -99,6 +144,7 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+
   Meteor.startup(function () {
       if (Parties1.find().count() === 0) {
 
@@ -117,8 +163,7 @@ if (Meteor.isServer) {
     if (Parties.find().count() === 0) {
 
       var parties = [
-        {
-          'type':'小型车辆',
+        {'type':'小型车辆',
           'number':'黑MR2345',
           'count':'5',
           'points':'2',

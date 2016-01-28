@@ -1,64 +1,65 @@
-<div ng-controller="PartiesListCtrl" ng-init="isbool=paries1[0].disable">
-<!-- 	<button ng-click="removeAll()">remove all</button>
-	<form>
-	  <label>Name</label>
-	  <input ng-model="parties[0].name" ng-change="inputing();">
-	  <label>Description</label>
-	  <input ng-model="newParty.description">
-	  <button ng-click="parties.save(); newParty='';">Add</button>
-	  <input ng-model="parties[0].name">
+<div ng-controller="PartiesListCtrl as vm" >
 
-	</form> -->
 	<div class="cantainer">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-
 			<hr>
 				<form action="">
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">$</div>
-				      <input type="text" class="form-control" id="exampleInputAmount" placeholder="号牌类型" ng-disabled="parties1[0].disabled" ng-model="parties[0].type">
+				      <input  type="text" class="form-control" id="type" placeholder="号牌类型" ng-disabled="parties1[0].disabled" ng-model="parties[0].type" ng-readonly="true"/>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">$</div>
-				      <input type="text" class="form-control" id="exampleInputAmount" placeholder="号牌号码" ng-disabled="parties1[0].disabled" ng-model="parties[0].number">
+				      <input   type="text" class="form-control" id="number" placeholder="号牌号码" ng-disabled="parties1[0].disabled" ng-model="parties[0].number" ng-readonly="true"/>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
 				    <div class="input-group">
 				      <div class="input-group-addon">$</div>
-				      <input type="text" class="form-control" id="exampleInputAmount" placeholder="处理罚单数" ng-disabled="parties1[0].disabled" ng-model="parties[0].count">
+				      <input   type="text" class="form-control" id="count" placeholder="处理罚单数" ng-disabled="parties1[0].disabled" ng-model="parties[0].count" ng-readonly="true"/>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">$</div>
-				      <input type="text" class="form-control" id="exampleInputAmount" placeholder="扣分数" ng-disabled="parties1[0].disabled" ng-model="parties[0].points">
+				      <input  type="text" class="form-control" id="points" placeholder="扣分数" ng-disabled="parties1[0].disabled" ng-model="parties[0].points" ng-readonly="true"/>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">$</div>
-				      <input type="text" class="form-control" id="exampleInputAmount" placeholder="电话" ng-disabled="parties1[0].disabled" ng-model="parties[0].telnumber">
+				      <input   type="text" class="form-control" id="tel" placeholder="电话" ng-disabled="parties1[0].disabled" ng-model="parties[0].telnumber" ng-readonly="true"/>
 				    </div>
 				</div>
                     <input id="inpvalue" type=" text" ng-model="parties1[0].status" ng-disabled="isbool" style="display:none">
 				<button class="btn btn-success" ng-click="removeAll()">全部清空</button>
                     <a id="btnOK" class="btn btn-success" ng-click="status()" ng-disabled="parties1[0].disabled" >确定</a>
                 </form>
+                <a class="btn btn-success">1</a>
+                <a class="btn btn-success">2</a>
+                <a class="btn btn-success">3</a>
+                <a class="btn btn-success">4</a>
+                <a class="btn btn-success">5</a>
+                <a class="btn btn-success">6</a>
+                <a class="btn btn-success">7</a>
+                <a class="btn btn-success">8</a>
+                <a class="btn btn-success">9</a>
+                <a class="btn btn-success">0</a>
+                <a class="btn btn-success">a</a>
+                <a class="btn btn-success">b</a>
+                <a class="btn btn-success">c</a>
+                <a class="btn btn-success">d</a>
+                <a class="btn btn-success">e</a>
+                <a class="btn btn-success">-</a>
             </div>
 		</div>
 	</div>
 
-  	<!-- <ul>
-	  <li ng-repeat="party in parties">
-	    {{party.name}}
-	    <p>{{party.description}}</p>
-	    <button ng-click="remove(party)">X</button>
-	  </li>
-	</ul> -->
+
+
 </div>
