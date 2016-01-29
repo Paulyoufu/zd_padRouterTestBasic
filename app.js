@@ -100,32 +100,56 @@ if (Meteor.isClient) {
                 }
             })
 
-            var updateText
+            var updateText;
             updateVal = function(btnVal)
             {
                 var inputId = Session.get("inputId",$(this).attr("id"));
                  updateText = Session.get("inputVal")+btnVal;
                 Session.set("inputVal",updateText);
+
                 switch(inputId)
                 {
                     case 'type':
+                        data();
                         Parties.update({_id: $scope.parties[0]._id},{$set:{type: updateText}})
                         break;
                     case 'number':
+                        data();
                         Parties.update({_id: $scope.parties[0]._id},{$set:{number: updateText}})
                         break;
                     case 'count':
+                        data();
                         Parties.update({_id: $scope.parties[0]._id},{$set:{count: updateText}})
                         break;
                     case 'points':
+                        data();
                         Parties.update({_id: $scope.parties[0]._id},{$set:{points: updateText}})
                         break;
                     case 'tel':
+                        data();
                         Parties.update({_id: $scope.parties[0]._id},{$set:{telnumber: updateText}})
                         break;
                 }
             }
+        data = function() {
+            if (Parties.find().count() === 0) {
 
+                var parties = [
+                    {
+                        'type': ' ',
+                        'number': ' ',
+                        'count': ' ',
+                        'points': ' ',
+                        'telnumber': ' ',
+                        'status': ' ',
+                    }
+                ];
+
+                for (var i = 0; i < parties.length; i++)
+                    Parties.insert(parties[i]);
+
+            }
+        }
             $scope.inputing = function(){
                 console.log('123');
             }
@@ -147,7 +171,22 @@ if (Meteor.isServer) {
 
   Meteor.startup(function () {
       if (Parties1.find().count() === 0) {
+          if (Parties.find().count() === 0) {
 
+              var parties = [
+                  {'type':'小型车辆',
+                      'number':'黑MR2345',
+                      'count':'5',
+                      'points':'2',
+                      'telnumber':'13324565432',
+                      'status':'正在操作',
+                  }
+              ];
+
+              for (var i = 0; i < parties.length; i++)
+                  Parties.insert(parties[i]);
+
+          }
           var parties1 = [
               {
                   'status':true,
@@ -160,21 +199,6 @@ if (Meteor.isServer) {
 
       }
 
-    if (Parties.find().count() === 0) {
 
-      var parties = [
-        {'type':'小型车辆',
-          'number':'黑MR2345',
-          'count':'5',
-          'points':'2',
-          'telnumber':'13324565432',
-          'status':'正在操作',
-        }
-      ];
-
-      for (var i = 0; i < parties.length; i++)
-        Parties.insert(parties[i]);
-
-    }
    });
 }
